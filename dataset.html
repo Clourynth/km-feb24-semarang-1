@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sales by Location</title>
+    <title>Dataset</title>
     <link rel="stylesheet" href="style/style.css" />
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -65,37 +65,45 @@
         </div>
       </aside>
       <!-- main section -->
-      <main
-        style="
-          flex-grow: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding: 1.7rem;" >
-
-        <p style="font-size: 1.5rem">
-          Sales by
-          <span
-            style="font-size: 2.5rem; display: block; font-weight: 400"
-            class="poppins-medium">
-            Location
-          </span>
-        </p>
-          <div class="main-chart">
-            <canvas id="location-sales-chart" width="800" height=" 300"></canvas> 
-          </div>
-
-        <p style="font-size: 16px; text-align: justify">
-          Lorem ipsum dolor sit amet consectetur. Viverra adipiscing quis arcu
-          nibh ornare varius. Sit pharetra pellentesque leo imperdiet viverra
-          adipiscing fermentum in pellentesque. Vel sit tincidunt aenean aliquam
-          nibh purus libero. Porta ultricies sagittis tortor at nullam.
-        </p>
-      </main>
+      <main class="main-content">
+            <section class="table-section">
+              <div class="filter-container">
+                <label for="rowsToShow">Rows to Show:</label>
+                <input type="number" id="rowsToShow" min="1" value="150">
+              </div>
+              <table id="vendingMachineTable" class="table-container" >
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Device ID</th>
+                    <th>Location</th>
+                    <th>Machine</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Transaction</th>
+                    <th>Trans Date</th>
+                    <th>Month</th>
+                    <th>Year</th>
+                    <th>Type</th>
+                    <th>Rcoil</th>
+                    <th>Rprice</th>
+                    <th>Rqty</th>
+                    <th>Mcoil</th>
+                    <th>Mprice</th>
+                    <th>Mqty</th>
+                    <th>Linetotal</th>
+                    <th>Transtotal</th>
+                    <th>Prcd Date</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </section>
+    </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../script/chart.js"></script>
-    <script src="../script/index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="../script/script.js"></script>
   </body>
 </html>

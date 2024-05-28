@@ -203,6 +203,10 @@
             <span class="material-symbols-outlined">credit_card</span>
             <p>Payment</p>
           </a>
+          <a href="dataset.html">
+            <span class="material-symbols-outlined">table</span>
+            <p>Dataset</p>
+          </a>
           <a href="contactus.html">
             <span class="material-symbols-outlined">person</span>
             <p>Contact Us</p>
@@ -262,56 +266,68 @@
         </div>
     </main>
     </div>
+    <!-- EmailJS SDK -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+    // Initialize EmailJS with your User ID
+    emailjs.init("DssR9a1x2APk50nvi");
+
+    function sendMessage() {
+        var fullName = document.querySelector('.whats-your-full').value;
+        var emailAddress = document.querySelector('.youexamplecom').value;
+        var message = document.querySelector('.frame-textarea').value;
+
+        var nameError = document.querySelector('.name-error');
+        var emailError = document.querySelector('.email-error');
+        var messageError = document.querySelector('.message-error');
+
+        if (!fullName) {
+            nameError.style.display = 'block';
+            return;
+        } else {
+            nameError.style.display = 'none';
+        }
+
+        if (!emailAddress) {
+            emailError.style.display = 'block';
+            return;
+        } else {
+            emailError.style.display = 'none';
+        }
+
+        if (!message) {
+            messageError.style.display = 'block';
+            return;
+        } else {
+            messageError.style.display = 'none';
+        }
+
+        if (emailAddress.indexOf('@') === -1) {
+            emailError.innerText = 'Please enter a valid email address.';
+            emailError.style.display = 'block';
+            return;
+        }
+
+        // Prepare the template parameters
+        var templateParams = {
+            fullName: fullName,
+            emailAddress: emailAddress,
+            message: message
+        };
+
+        // Send email using EmailJS
+        emailjs.send('service_s9fucgv', 'template_2cqvrjd', templateParams)
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                alert('Email sent successfully!');
+            }, function(error) {
+                console.log('FAILED...', error);
+                alert('Failed to send email. Please check console for error details.');
+            });
+    }
+</script>
+
   </body>
 </html>
-<script>
-  function sendMessage() {
-    // Ambil nilai dari input nama, alamat email, dan pesan
-    var fullName = document.querySelector('.whats-your-full').value;
-    var emailAddress = document.querySelector('.youexamplecom').value;
-    var message = document.querySelector('.frame-textarea').value;
-  
-    // Validasi apakah semua kolom telah diisi
-    var nameError = document.querySelector('.name-error');
-    var emailError = document.querySelector('.email-error');
-    var messageError = document.querySelector('.message-error');
 
-    if (!fullName) {
-      nameError.style.display = 'block';
-      return;
-    } else {
-      nameError.style.display = 'none';
-    }
-  
-    if (!emailAddress) {
-      emailError.style.display = 'block';
-      return;
-    } else {
-      emailError.style.display = 'none';
-    }
-  
-    if (!message) {
-      messageError.style.display = 'block';
-      return;
-    } else {
-      messageError.style.display = 'none';
-    }
-  
-    // Validasi apakah alamat email mengandung karakter '@'
-    if (emailAddress.indexOf('@') === -1) {
-      emailError.innerText = 'Please enter a valid email address.';
-      emailError.style.display = 'block';
-      return;
-    }
-  
-    // Format pesan email dengan menggunakan encodeURIComponent
-    var emailSubject = "Message from " + encodeURIComponent(fullName);
-    var emailBody = "Email Address: " + encodeURIComponent(emailAddress) + "%0D%0A" +
-                    "Message: " + encodeURIComponent(message);
-  
-    var mailtoURL = "mailto:team1.tasmgrevou@gmail.com" + "?subject=" + emailSubject + "&body=" + emailBody;
-  
-    // Buka aplikasi email default dengan URL mailto yang telah dibuat
-    window.location.href = mailtoURL;
-  }
-</script>
+ 

@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('category-sales-chart').getContext('2d');
             const labels = data.map(item => item.category);
             const totalSales = data.map(item => item.total_sales);
-            const itemSales = data.map(item => item.item_sales);
+            const itemSales = data.map(item => item.percentage_of_total_sales);
 
             createBarChart(ctx, labels, totalSales, itemSales, 'Total Sales', 'Item Sales');
         };

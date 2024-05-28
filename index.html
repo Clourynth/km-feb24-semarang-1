@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Homepage</title>
     <link rel="stylesheet" href="style/style.css" />
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -72,6 +72,10 @@
             <span class="material-symbols-outlined">credit_card</span>
             <p>Payment</p>
           </a>
+          <a href="dataset.html">
+            <span class="material-symbols-outlined">table</span>
+            <p>Dataset</p>
+          </a>
           <a href="contactus.html">
             <span class="material-symbols-outlined">person</span>
             <p>Contact Us</p>
@@ -136,27 +140,35 @@
 
           <div class="wrapper-filter">
             <div class="filter">
-              <div class="poppins-light selectFilter">
-                <select id="categoryFilter">
-                  <option value="">Filter by Categories</option>
-              </select>
-              </div>
+                <div class="selectFilter">
+                    <select id="categoryFilter">
+                        <option value="" disabled selected>Filter by Categories</option>
+                        <option value="">Clear</option>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
             </div>
             <div class="filter">
-              <div class="poppins-light selectFilter">
-                <select id="machineFilter">
-                  <option value="">Filter by Machines</option>
-              </select>
-              </div>
+                <div class="selectFilter">
+                    <select id="machineFilter">
+                        <option value="" disabled selected>Filter by Machines</option>
+                        <option value="">Clear</option>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
             </div>
             <div class="filter">
-              <div class="poppins-light selectFilter">
-                <select id="monthFilter">
-                  <option value="">Filter by Months</option>
-              </select>
-              </div>
+                <div class="selectFilter">
+                    <select id="monthFilter">
+                        <option value="" disabled selected>Filter by Months</option>
+                        <option value="">Clear</option>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
             </div>
-          </div>
+        </div>
+        
+
         </div>
 
         <!-- project content -->
