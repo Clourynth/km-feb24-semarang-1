@@ -182,9 +182,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const salesByPaymentData = prepareChartData(enhancedData, 'type');
 
     const salesPerMonthChart = ctxMonth ? createLineChart(ctxMonth, salesPerMonthData.labels, salesPerMonthData.totalSales, salesPerMonthData.itemSales, 'Total Sales', 'Item Sales') : null;
-    const salesPerQuarterChart = ctxQuarter ? createBarChart(ctxQuarter, salesPerQuarterData.labels, salesPerQuarterData.totalSales, salesPerQuarterData.itemSales, 'Total Sales', 'Item Sales', true) : null;
+    const salesPerQuarterChart = ctxQuarter ? createLineChart(ctxQuarter, salesPerQuarterData.labels, salesPerQuarterData.totalSales, salesPerQuarterData.itemSales, 'Total Sales', 'Item Sales', true) : null;
     const salesByCategoryChart = ctxCategory ? createBarChart(ctxCategory, salesByCategoryData.labels, salesByCategoryData.totalSales, salesByCategoryData.itemSales, 'Total Sales', 'Item Sales') : null;
-    const salesByLocationChart = ctxLocation ? createBarChart(ctxLocation, salesByLocationData.labels, salesByLocationData.totalSales, salesByLocationData.itemSales, 'Total Sales', 'Item Sales') : null;
+    const salesByLocationChart = ctxLocation ? createBarChart(ctxLocation, salesByLocationData.labels, salesByLocationData.totalSales, salesByLocationData.itemSales, 'Total Sales', 'Item Sales', true) : null;
     const salesByPaymentChart = ctxPayment ? createPieChart(ctxPayment, salesByPaymentData.labels, salesByPaymentData.totalSales, 'Total Sales by Payment Method') : null;
 
     const applyFilters = () => {
