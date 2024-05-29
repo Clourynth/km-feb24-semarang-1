@@ -1,3 +1,4 @@
+/* Mengatur margin, padding, dan box-sizing untuk seluruh elemen */
 * {
   margin: 0;
   padding: 0;
@@ -8,17 +9,18 @@
   appearance: none;
 }
 
+/* Mengatur gaya dasar untuk body */
 body {
-  font-family: "Poppins";
+  font-family: "Poppins", sans-serif; /* Tambahkan fallback font */
   background-color: #f1f1f1;
   width: 100vw;
   height: 100vh;
   font-size: 0.88rem;
   user-select: none;
-
   overflow-x: hidden;
 }
 
+/* Mengatur container utama */
 .container {
   display: flex;
   flex-direction: row;
@@ -26,13 +28,6 @@ body {
   gap: 13rem;
   margin: 0 auto;
 }
-/* .container{
-  padding : 0 12px;
-  
-      width: 100%;
-  } */
-
-
 
 /* sidebar */
 .sidebar {
@@ -40,12 +35,12 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 100vh; /* Mengatur tinggi sidebar */
-  max-height: 100% ;
+  height: 100vh;
+  max-height: 100%;
   width: 180px;
   position: fixed;
-  top:0;
-  left:20px;
+  top: 0;
+  left: 20px;
   background: linear-gradient(to bottom, rgba(97, 174, 231, 1), #034574);
   overflow-x: hidden;
   border-radius: 15px;
@@ -54,13 +49,14 @@ body {
   box-sizing: border-box;
 }
 
+/* Gaya untuk tautan dalam sidebar */
 .sidebar a {
   display: flex;
   align-items: center;
   gap: 1rem;
   width: 100%;
   padding: 10px;
-  margin: 10px 0; /* Menambahkan jarak antar elemen */
+  margin: 10px 0;
   transition: all 0.3s ease-in-out;
   color: #f1f1f1;
   text-decoration: none;
@@ -85,11 +81,11 @@ body {
 }
 
 .sidebar a:last-child {
-  margin-top: auto; /* Memastikan elemen terakhir berada di bawah */
-  margin-bottom: 10px; 
+  margin-top: auto;
+  margin-bottom: 10px;
 }
 
-/* Optional: menambahkan hover untuk container utama */
+/* Hover untuk container utama */
 .sidebar a:hover {
   background-color: #fff;
   color: #034574;
@@ -99,36 +95,45 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
-/* Tambahkan media query untuk responsif */
+/* Media query untuk sidebar responsif */
 @media screen and (max-width: 768px) {
   .sidebar {
+    position: relative;
     width: 100%;
+    height: auto; /* Menyesuaikan tinggi secara otomatis */
+    left: 0;
+    border-radius: 0;
+    padding: 10px 0;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .main-content {
+    margin-left: 0; /* Menghapus margin kiri untuk tampilan mobile */
   }
 }
 
-
 /* font */
-
 .poppins-light {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
-  font-style: normal;
 }
 .poppins-semibold {
   font-family: "Poppins", sans-serif;
   font-weight: 600;
-  font-style: normal;
 }
 .poppins-medium {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
-  font-style: normal;
 }
+
+/* Main content */
 main {
   margin-top: 1rem;
   width: auto;
 }
-
 
 /* font style */
 .header-section p {
@@ -138,16 +143,20 @@ main {
 .w-half p {
   color: #000;
 }
+
 main input {
   background-color: #f1f1f1;
   border: 0;
   outline: 0;
   color: #114266;
 }
+
+/* Wrapper untuk sales */
 .wrapper-sales {
   display: flex;
   gap: 2.5rem;
 }
+
 .insight {
   background-color: #f1f1f1;
   transition: all 0.3s ease;
@@ -156,6 +165,7 @@ main input {
   border-radius: 15px;
   text-align: center;
 }
+
 .title-insight {
   width: 120px;
   display: flex;
@@ -174,44 +184,26 @@ main input {
   align-items: center;
 }
 
-.insight :hover {
+.insight:hover {
   box-shadow: none;
 }
 
-.total-sales p {
+.total-sales p, .quantity-sold p, .total-product p {
   text-align: center;
   font-size: 12px;
   color: #114266;
 }
-.quantity-sold p {
-  text-align: center;
-  font-size: 12px;
-  color: #114266;
-}
-.total-product p {
-  text-align: center;
-  font-size: 12px;
-  color: #114266;
-}
-.total-sales h3 {
-  text-align: center;
-  color: #114266;
-}
-.quantity-sold h3 {
-  text-align: center;
-  color: #114266;
-}
-.total-product h3 {
+
+.total-sales h3, .quantity-sold h3, .total-product h3 {
   text-align: center;
   color: #114266;
 }
 
-
-/* filter  */
+/* filter */
 .wrapper-filter {
   display: flex;
   gap: 1.5rem;
-  justify-content: center; /* Untuk memusatkan filter */
+  justify-content: center;
 }
 
 .filter {
@@ -241,15 +233,12 @@ main input {
   border-radius: 15px;
   padding: 6px 14px;
   text-align: center;
-  align-items: center;
   display: flex;
-  justify-content: center; /* Memastikan teks berada di tengah */
+  justify-content: center;
 }
 
 .selectFilter select {
-  appearance: none; /* menghapus default styling */
-  -webkit-appearance: none; /* untuk browser WebKit */
-  -moz-appearance: none; /* untuk browser Mozilla */
+  appearance: none;
   width: 100%;
   height: 100%;
   background: transparent;
@@ -258,17 +247,15 @@ main input {
   font-size: 12px;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  text-align: center; /* Memastikan teks berada di tengah */
+  text-align: center;
   cursor: pointer;
 }
 
-
 .selectFilter select option {
-  background-color: #ffffff; /* Ubah background color dari opsi */
-  color: #333333; /* Ubah text color dari opsi */
+  background-color: #ffffff;
+  color: #333333;
 }
 
-/* Styling for the dropdown menu */
 .selectFilter select:focus {
   outline: none;
 }
@@ -277,18 +264,10 @@ main input {
   outline: none;
 }
 
-/* Ensuring the options are not transparent */
-.selectFilter select option {
-  background: #ffffff;
-  color: #333333;
-}
-
-/* Option hover effect */
 .selectFilter select option:hover {
   background: #f1f1f1;
 }
 
-/* Enhancing dropdown with shadow */
 .selectFilter select {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -297,11 +276,13 @@ main input {
 .w-half {
   width: 49%;
 }
+
 .wrapper-chart {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
 }
+
 .box-card {
   width: 49%;
   justify-content: space-between;
@@ -314,47 +295,45 @@ main input {
   background: linear-gradient(to right, #034574, rgba(97, 174, 231, 1));
   border-radius: 15px;
   color: white;
-  padding: 60px 0 0px 25px;
+  padding: 60px 0 0 25px;
 }
 
 .content-section {
   font-size: 16px;
 }
+
 .content {
   font-size: 26px;
   margin-left: 2rem;
-  margin-top: -1, 5rem;
-  
+  margin-top: -1.5rem;
 }
-.box-card p{
+
+.box-card p {
   color: #f1f1f1 !important;
 }
+
 /* chart */
-.chart{
+.chart {
   padding: 1rem;
   width: 100%;
   min-width: 200px;
   height: 100%;
   max-height: 200px;
-  
 }
+
 .main-chart {
   height: 100%;
-  /* max-height: 400px; */
   padding-top: 20px;
   padding-bottom: 20px;
-  
-  /* Menengahkan elemen */
-  margin: 0 auto; /* Mengatur margin kiri dan kanan menjadi auto */
-  display: flex; /* Menggunakan flexbox */
-  justify-content: center; /* Menengahkan secara horizontal */
-  align-items: center; /* Menengahkan secara vertikal */
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .main-chart .chart {
-  width: 100%; /* atau atur lebar sesuai kebutuhan */
+  width: 100%;
 }
-
 
 .box-chart {
   width: 100%;
@@ -370,6 +349,7 @@ main input {
   border-radius: 15px;
 }
 
+/* Gaya untuk gambar */
 img {
   max-width: 90%;
   width: 80%;
@@ -377,6 +357,7 @@ img {
   justify-content: center;
   margin: 3rem 2rem 2rem 2rem;
 }
+
 .box-card img {
   width: 12rem;
   height: 12rem;
@@ -387,15 +368,16 @@ img {
 footer {
   padding: 12px 0;
 }
+
 footer div {
   position: relative;
   border-radius: 24px 24px 0 0;
   width: 100%;
-
   height: auto;
   padding: 20px 30px;
   background-color: #f1f1f1;
 }
+
 footer .container {
   width: 100%;
   display: flex;
@@ -409,6 +391,7 @@ footer .container .sec h2 {
   font-weight: 600;
   margin-bottom: 16px;
 }
+
 footer .container .sec p {
   color: #555;
   text-align: justify;
@@ -417,15 +400,18 @@ footer .container .sec p {
 footer .container .contact .info {
   position: relative;
 }
+
 footer .container .contact .info li {
   display: grid;
   grid-template-columns: 30px 1fr;
   margin-bottom: 16px;
 }
+
 footer .container .contact .info li span {
   color: #555;
   font-size: 20px;
 }
+
 footer .container .contact .info li a {
   color: #555;
   text-decoration: none;
@@ -441,18 +427,17 @@ footer .container .contact .info li a {
   border: 1px solid rgba(0, 0, 0, 0.15);
   margin: 0 auto;
   display: flex;
-  justify-content: center; /* Mengatur konten horizontal di tengah */
-  align-items: center; /* Mengatur konten vertikal di tengah */
+  justify-content: center;
+  align-items: center;
 }
 
-main p{
+main p {
   color: #034574;
 }
 
 /* table */
 .main-content {
   flex: 1;
-  /* margin-left: 250px; */
   padding: 20px;
 }
 
@@ -487,7 +472,7 @@ main p{
 
 .table-container {
   width: 100%;
-  max-width: 1000px; /* Set maximum width for responsive design */
+  max-width: 1000px;
   overflow-x: auto;
 }
 
@@ -500,7 +485,7 @@ table {
 
 th, td {
   margin-top: 20px;
-  padding: 12px; /* Adjust padding for better spacing */
+  padding: 12px;
   border: 1px solid #ddd;
   text-align: left;
 }
@@ -518,12 +503,87 @@ tr:hover {
 /* Responsive design for mobile devices */
 @media (max-width: 768px) {
   th, td {
-      font-size: 12px; /* Adjust font size for smaller screens */
+    font-size: 12px;
+  }
+
+  .table-container {
+    overflow-x: auto;
   }
 }
 
-@media (max-width: 768px) {
+/* Media query tambahan untuk tampilan responsif */
+@media screen and (max-width: 768px) {
+  .wrapper-sales {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .insight {
+    width: 100%;
+    height: auto;
+  }
+
+  .wrapper-filter {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .selectFilter {
+    width: auto;
+    min-width: 100%;
+  }
+
+  .wrapper-chart, .box-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .box-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .content-section {
+    text-align: center;
+  }
+
+  .main-chart {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .box-chart {
+    max-width: 100%;
+  }
+
+  footer .container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .main-content {
+    padding: 10px;
+  }
+
+  .header {
+    font-size: 20px;
+  }
+
+  .table-section {
+    padding: 10px;
+  }
+
+  .search-bar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .filter-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
   .table-container {
-      overflow-x: auto; /* Enable horizontal scrolling for small screens */
+    width: 100%;
   }
 }

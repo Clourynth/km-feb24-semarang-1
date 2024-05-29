@@ -1,14 +1,18 @@
 document.addEventListener('DOMContentLoaded', async () => {
+
+    // Elemen filter
     const machineFilter = document.getElementById('machineFilter');
     const categoryFilter = document.getElementById('categoryFilter');
     const monthFilter = document.getElementById('monthFilter');
 
+     // Context untuk setiap chart
     const ctxCategory = document.getElementById('salesByCategoryChart')?.getContext('2d');
     const ctxMonth = document.getElementById('salesPerMonthChart')?.getContext('2d');
     const ctxQuarter = document.getElementById('salesPerQuarterChart')?.getContext('2d');
     const ctxLocation = document.getElementById('salesByLocationChart')?.getContext('2d');
     const ctxPayment = document.getElementById('salesByPaymentChart')?.getContext('2d');
 
+     // Fetch data dari file JSON
     const fetchData = async () => {
         const response = await fetch('data/data.json');
         return response.json();
@@ -16,8 +20,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const data = await fetchData();
 
+      // Fungsi untuk parsing nilai mata uang
     const parseCurrency = (value) => parseFloat(value.replace('$', ''));
 
+    // Menambahkan informasi kuartal ke data
     const addQuarterToData = (data) => {
         return data.map(item => {
             const month = item.month;
@@ -32,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const enhancedData = addQuarterToData(data);
 
+    // Mengisi filter dengan opsi dari data
     const populateFilters = (data) => {
         const machines = [...new Set(data.map(item => item.machine))];
         const categories = [...new Set(data.map(item => item.category))];
@@ -59,6 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
+    // Menghitung dan menampilkan total
     populateFilters(enhancedData);
 
     const calculateAndDisplayTotals = (data) => {
@@ -73,6 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     calculateAndDisplayTotals(enhancedData);
 
+    // Fungsi untuk membuat line chart
     const createLineChart = (ctx, labels, data1, data2, label1, label2) => {
         return new Chart(ctx, {
             type: 'line',
@@ -105,6 +114,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
+
+    // Fungsi untuk membuat bar chart
     const createBarChart = (ctx, labels, data1, data2, label1, label2, horizontal = false) => {
         return new Chart(ctx, {
             type: 'bar',
@@ -138,6 +149,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
+    // Fungsi untuk membuat pie chart
     const createPieChart = (ctx, labels, data, label) => {
         const total = data.reduce((sum, value) => sum + value, 0);
         const percentages = data.map(value => ((value / total) * 100).toFixed(2));
@@ -163,6 +175,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
+
+    // Fungsi untuk menyiapkan data chart berdasarkan kunci tertentu
     const prepareChartData = (data, key) => {
         const labels = [...new Set(data.map(item => item[key]))];
         const itemSales = labels.map(label => {
@@ -175,18 +189,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         return { labels, itemSales, totalSales };
     };
 
+    // Siapkan data untuk chart
     const salesPerMonthData = prepareChartData(enhancedData, 'month');
     const salesPerQuarterData = prepareChartData(enhancedData, 'quarter');
     const salesByCategoryData = prepareChartData(enhancedData, 'category');
     const salesByLocationData = prepareChartData(enhancedData, 'location');
     const salesByPaymentData = prepareChartData(enhancedData, 'type');
 
-    const salesPerMonthChart = ctxMonth ? createLineChart(ctxMonth, salesPerMonthData.labels, salesPerMonthData.totalSales, salesPerMonthData.itemSales, 'Total Sales', 'Item Sales') : null;
+    // Konversi angka bulan menjadi nama bulan (Jan, Feb, dst.)
+    const monthLabels = salesPerMonthData.labels.map(month => {
+        return new Date(0, month - 1).toLocaleString('default', { month: 'short' });
+    });
+    // Buat chart dengan data yang sudah disiapkan
+    const salesPerMonthChart = ctxMonth ? createLineChart(ctxMonth, monthLabels, salesPerMonthData.totalSales, salesPerMonthData.itemSales, 'Total Sales', 'Item Sales') : null;
     const salesPerQuarterChart = ctxQuarter ? createLineChart(ctxQuarter, salesPerQuarterData.labels, salesPerQuarterData.totalSales, salesPerQuarterData.itemSales, 'Total Sales', 'Item Sales', true) : null;
     const salesByCategoryChart = ctxCategory ? createBarChart(ctxCategory, salesByCategoryData.labels, salesByCategoryData.totalSales, salesByCategoryData.itemSales, 'Total Sales', 'Item Sales') : null;
     const salesByLocationChart = ctxLocation ? createBarChart(ctxLocation, salesByLocationData.labels, salesByLocationData.totalSales, salesByLocationData.itemSales, 'Total Sales', 'Item Sales', true) : null;
-    const salesByPaymentChart = ctxPayment ? createPieChart(ctxPayment, salesByPaymentData.labels, salesByPaymentData.totalSales, 'Total Sales by Payment Method') : null;
+    const salesByPaymentChart = ctxPayment ? createPieChart(ctxPayment, salesByPaymentData.labels, salesByPaymentData.totalSales, 'Total Sales') : null;
 
+    // Fungsi untuk menerapkan filter
     const applyFilters = () => {
         let filteredData = enhancedData;
         const machine = machineFilter.value;
@@ -211,8 +232,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const salesByLocationData = prepareChartData(filteredData, 'location');
         const salesByPaymentData = prepareChartData(filteredData, 'type');
 
+       
         if (salesPerMonthChart) {
-            salesPerMonthChart.data.labels = salesPerMonthData.labels;
+            const monthLabels = salesPerMonthData.labels.map(month => {
+                return new Date(0, month - 1).toLocaleString('default', { month: 'short' });
+            });
+            salesPerMonthChart.data.labels = monthLabels;
             salesPerMonthChart.data.datasets[0].data = salesPerMonthData.totalSales;
             salesPerMonthChart.data.datasets[1].data = salesPerMonthData.itemSales;
             salesPerMonthChart.update();
@@ -249,6 +274,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+    // Fungsi untuk mereset filter
     const resetFilters = () => {
         machineFilter.selectedIndex = 0;
         categoryFilter.selectedIndex = 0;
@@ -256,10 +282,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         applyFilters();
     };
 
+     // Event listener untuk filter
     machineFilter.addEventListener('change', applyFilters);
     categoryFilter.addEventListener('change', applyFilters);
     monthFilter.addEventListener('change', applyFilters);
 
+    // Event listener untuk mereset filter jika nilai kosong dipilih
     machineFilter.addEventListener('change', () => {
         if (machineFilter.value === '') resetFilters();
     });

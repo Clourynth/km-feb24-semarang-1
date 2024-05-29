@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const labels = data.map(item => item.type);
             const totalSales = data.map(item => parseFloat(item.total_sales));
 
-            createPieChart(ctx, labels, totalSales, 'Cash','Credit');
+            createPieChart(ctx, labels, totalSales, 'Total Sales');
         };
 
         // Check and create charts based on the current page
