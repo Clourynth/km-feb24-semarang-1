@@ -24,7 +24,7 @@ body {
 .container {
   display: flex;
   flex-direction: row;
-  width: 96%;
+  width: 97%;
   gap: 13rem;
   margin: 0 auto;
 }
@@ -201,7 +201,7 @@ main input {
 /* filter */
 .wrapper-filter {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   justify-content: center;
 }
 

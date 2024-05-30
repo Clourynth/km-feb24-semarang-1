@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return value;
     };
 
-    // Fungsi untuk membuat line chart tanpa titik-titik pada setiap variabel
+    // Fungsi untuk membuat line chart 
     const createLineChart = (ctx, labels, data1, data2, label1, label2) => {
         return new Chart(ctx, {
             type: 'line',
