@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const categoryFilter = document.getElementById('categoryFilter');
     const monthFilter = document.getElementById('monthFilter');
 
-     // Context untuk setiap chart
+    // Context untuk setiap chart
     const ctxCategory = document.getElementById('salesByCategoryChart')?.getContext('2d');
     const ctxMonth = document.getElementById('salesPerMonthChart')?.getContext('2d');
     const ctxQuarter = document.getElementById('salesPerQuarterChart')?.getContext('2d');
@@ -13,14 +13,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const ctxPayment = document.getElementById('salesByPaymentChart')?.getContext('2d');
 
      // Fetch data dari file JSON
-    const fetchData = async () => {
+     const fetchData = async () => {
         const response = await fetch('data/data.json');
         return response.json();
     };
 
     const data = await fetchData();
 
-      // Fungsi untuk parsing nilai mata uang
+    // Fungsi untuk parsing nilai mata uang
     const parseCurrency = (value) => parseFloat(value.replace('$', ''));
 
     // Menambahkan informasi kuartal ke data
@@ -81,7 +81,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     calculateAndDisplayTotals(enhancedData);
 
-    // Fungsi untuk membuat line chart
+    // Fungsi untuk memformat angka dalam satuan ribuan
+    const formatThousands = (value) => {
+        if (value >= 1000) {
+            return (value / 1000).toFixed(1) + 'k';
+        }
+        return value;
+    };
+
+    // Fungsi untuk membuat line chart tanpa titik-titik pada setiap variabel
     const createLineChart = (ctx, labels, data1, data2, label1, label2) => {
         return new Chart(ctx, {
             type: 'line',
@@ -93,30 +101,34 @@ document.addEventListener('DOMContentLoaded', async () => {
                         data: data1,
                         borderColor: '#61AEE7',
                         backgroundColor: '#61AEE7',
-                        borderWidth: 2
+                        borderWidth: 2,
+                        pointRadius: 0 // Clear line chart
                     },
                     {
                         label: label2,
                         data: data2,
                         borderColor: '#114266',
                         backgroundColor: '#114266',
-                        borderWidth: 2
+                        borderWidth: 2,
+                        pointRadius: 0 // Clear line chart
                     }
                 ]
             },
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            callback: formatThousands // Menggunakan fungsi untuk format ribuan
+                        }
                     }
                 }
             }
         });
     };
 
-
     // Fungsi untuk membuat bar chart
-    const createBarChart = (ctx, labels, data1, data2, label1, label2, horizontal = false) => {
+    const createHorizontalBarChart = (ctx, labels, data1, data2, label1, label2, horizontal = false) => {
         return new Chart(ctx, {
             type: 'bar',
             data: {
@@ -141,8 +153,60 @@ document.addEventListener('DOMContentLoaded', async () => {
             options: {
                 indexAxis: horizontal ? 'y' : 'x',
                 scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: formatThousands // Menggunakan fungsi untuk format ribuan
+                        }
+                    },
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        // ticks: {
+                        //     callback: formatThousands // Menggunakan fungsi untuk format ribuan
+                        // }
+                    }
+                }
+            }
+        });
+    };
+
+    // Fungsi untuk membuat bar chart
+    const createVerticalBarChart = (ctx, labels, data1, data2, label1, label2, horizontal = false) => {
+        return new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: label1,
+                        data: data1,
+                        backgroundColor: '#61AEE7',
+                        borderColor: '#61AEE7',
+                        borderWidth: 2
+                    },
+                    {
+                        label: label2,
+                        data: data2,
+                        backgroundColor: '#114266',
+                        borderColor: '#114266',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                indexAxis: horizontal ? 'y' : 'x',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        // ticks: {
+                        //     callback: formatThousands // Menggunakan fungsi untuk format ribuan
+                        // }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: formatThousands // Menggunakan fungsi untuk format ribuan
+                        }
                     }
                 }
             }
@@ -175,7 +239,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-
     // Fungsi untuk menyiapkan data chart berdasarkan kunci tertentu
     const prepareChartData = (data, key) => {
         const labels = [...new Set(data.map(item => item[key]))];
@@ -200,11 +263,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const monthLabels = salesPerMonthData.labels.map(month => {
         return new Date(0, month - 1).toLocaleString('default', { month: 'short' });
     });
+
     // Buat chart dengan data yang sudah disiapkan
     const salesPerMonthChart = ctxMonth ? createLineChart(ctxMonth, monthLabels, salesPerMonthData.totalSales, salesPerMonthData.itemSales, 'Total Sales', 'Item Sales') : null;
-    const salesPerQuarterChart = ctxQuarter ? createLineChart(ctxQuarter, salesPerQuarterData.labels, salesPerQuarterData.totalSales, salesPerQuarterData.itemSales, 'Total Sales', 'Item Sales', true) : null;
-    const salesByCategoryChart = ctxCategory ? createBarChart(ctxCategory, salesByCategoryData.labels, salesByCategoryData.totalSales, salesByCategoryData.itemSales, 'Total Sales', 'Item Sales') : null;
-    const salesByLocationChart = ctxLocation ? createBarChart(ctxLocation, salesByLocationData.labels, salesByLocationData.totalSales, salesByLocationData.itemSales, 'Total Sales', 'Item Sales', true) : null;
+    const salesPerQuarterChart = ctxQuarter ? createLineChart(ctxQuarter, salesPerQuarterData.labels, salesPerQuarterData.totalSales, salesPerQuarterData.itemSales, 'Total Sales', 'Item Sales') : null;
+    const salesByCategoryChart = ctxCategory ? createVerticalBarChart(ctxCategory, salesByCategoryData.labels, salesByCategoryData.totalSales, salesByCategoryData.itemSales, 'Total Sales', 'Item Sales') : null;
+    const salesByLocationChart = ctxLocation ? createHorizontalBarChart(ctxLocation, salesByLocationData.labels, salesByLocationData.totalSales, salesByLocationData.itemSales, 'Total Sales', 'Item Sales', true) : null;
     const salesByPaymentChart = ctxPayment ? createPieChart(ctxPayment, salesByPaymentData.labels, salesByPaymentData.totalSales, 'Total Sales') : null;
 
     // Fungsi untuk menerapkan filter
@@ -232,7 +296,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const salesByLocationData = prepareChartData(filteredData, 'location');
         const salesByPaymentData = prepareChartData(filteredData, 'type');
 
-       
         if (salesPerMonthChart) {
             const monthLabels = salesPerMonthData.labels.map(month => {
                 return new Date(0, month - 1).toLocaleString('default', { month: 'short' });
@@ -282,7 +345,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         applyFilters();
     };
 
-     // Event listener untuk filter
+    // Event listener untuk filter
     machineFilter.addEventListener('change', applyFilters);
     categoryFilter.addEventListener('change', applyFilters);
     monthFilter.addEventListener('change', applyFilters);

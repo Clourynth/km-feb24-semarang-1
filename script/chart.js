@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    // Fungsi untuk memformat angka dalam satuan ribuan
+    const formatThousands = (value) => {
+        if (value >= 1000) {
+            return (value / 1000).toFixed(1) + 'k';
+        }
+        return value;
+    };
+
+    // Fungsi untuk membuat line chart
     const createLineChart = (ctx, labels, data1, data2, label1, label2) => {
         return new Chart(ctx, {
             type: 'line',
@@ -11,29 +21,33 @@ document.addEventListener('DOMContentLoaded', function() {
                         borderColor: '#61AEE7',
                         backgroundColor: 'rgba(97, 174, 231, 0.2)',
                         borderWidth: 2,
-                        fill: false
+                        pointRadius: 0 // Clear line chart
                     },
                     {
                         label: label2,
                         data: data2,
                         borderColor: '#114266',
-                        backgroundColor: 'rgba(17, 66, 102, 0.2)',
+                        backgroundColor: '#114266',
                         borderWidth: 2,
-                        fill: false
+                        pointRadius: 0 // Clear line chart
                     }
                 ]
             },
-            options: {
+           options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            callback: formatThousands // Menggunakan fungsi untuk format ribuan
+                        }
                     }
                 }
             }
         });
     };
 
-    const createBarChart = (ctx, labels, data1, data2, label1, label2, horizontal = false) => {
+    // Fungsi untuk membuat bar chart
+    const createHorizontalBarChart = (ctx, labels, data1, data2, label1, label2, horizontal = false) => {
         return new Chart(ctx, {
             type: 'bar',
             data: {
@@ -58,14 +72,67 @@ document.addEventListener('DOMContentLoaded', function() {
             options: {
                 indexAxis: horizontal ? 'y' : 'x',
                 scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: formatThousands // Menggunakan fungsi untuk format ribuan
+                        }
+                    },
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        // ticks: {
+                        //     callback: formatThousands // Menggunakan fungsi untuk format ribuan
+                        // }
                     }
                 }
             }
         });
     };
 
+    // Fungsi untuk membuat bar chart
+    const createVerticalBarChart = (ctx, labels, data1, data2, label1, label2, horizontal = false) => {
+        return new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: label1,
+                        data: data1,
+                        backgroundColor: '#61AEE7',
+                        borderColor: '#61AEE7',
+                        borderWidth: 2
+                    },
+                    {
+                        label: label2,
+                        data: data2,
+                        backgroundColor: '#114266',
+                        borderColor: '#114266',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                indexAxis: horizontal ? 'y' : 'x',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        // ticks: {
+                        //     callback: formatThousands // Menggunakan fungsi untuk format ribuan
+                        // }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: formatThousands // Menggunakan fungsi untuk format ribuan
+                        }
+                    }
+                }
+            }
+        });
+    };
+
+    // Fungsi untuk membuat pie chart
     const createPieChart = (ctx, labels, data, label) => {
         const total = data.reduce((sum, value) => sum + value, 0);
         const percentages = data.map(value => ((value / total) * 100).toFixed(2));
@@ -109,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const totalSales = data.map(item => item.total_sales);
             const itemSales = data.map(item => item.item_sales);
 
-            createBarChart(ctx, labels, totalSales, itemSales, 'Total Sales', 'Item Sales');
+            createVerticalBarChart(ctx, labels, totalSales, itemSales, 'Total Sales', 'Item Sales');
         };
 
         const createQuarterSalesChart = async () => {
@@ -139,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const totalSales = data.map(item => parseFloat(item.total_sales));
             const itemSales = data.map(item => parseFloat(item.items_sales));
 
-            createBarChart(ctx, labels, totalSales, itemSales, 'Total Sales', 'Item Sales', true);
+            createHorizontalBarChart(ctx, labels, totalSales, itemSales, 'Total Sales', 'Item Sales', true);
         };
 
         const createPaymentSalesChart = async () => {
