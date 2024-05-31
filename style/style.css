@@ -24,7 +24,7 @@ body {
 .container {
   display: flex;
   flex-direction: row;
-  width: 97%;
+  width: 96%;
   gap: 13rem;
   margin: 0 auto;
 }
