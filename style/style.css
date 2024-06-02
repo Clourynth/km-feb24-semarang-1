@@ -97,10 +97,9 @@ body {
 /* Media query untuk sidebar responsif */
 @media screen and (max-width: 360px) {
   .sidebar {
-    position: relative;
+    position: fixed;
     width: 100%;
-    height: auto; /* Menyesuaikan tinggi secara otomatis */
-    left: 0;
+    height: auto; 
     border-radius: 0;
     padding: 10px 0;
   }
@@ -110,7 +109,7 @@ body {
   }
 
   .main-content {
-    margin-left: 0; /* Menghapus margin kiri untuk tampilan mobile */
+    margin-left: 0; 
   }
 }
 
@@ -131,7 +130,7 @@ body {
 /* Main content */
 main {
   margin-top: 1rem;
-  width: auto;
+  width: 100%;
 }
 
 /* font style */
@@ -214,6 +213,7 @@ main input {
 
 .wrapper {
   display: flex;
+  flex-wrap: wrap;
   padding: 1rem 0;
   align-items: center;
   gap: 8.5rem;
@@ -317,14 +317,14 @@ main input {
   width: 100%;
   min-width: 200px;
   height: 100%;
-  max-height: 200px;
+  min-height: 200px;
 }
 
 .main-chart {
   height: 100%;
   padding-top: 20px;
   padding-bottom: 20px;
-  margin: 0 auto;
+  margin: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
