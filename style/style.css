@@ -97,11 +97,12 @@ body {
 /* Media query untuk sidebar responsif */
 @media screen and (max-width: 360px) {
   .sidebar {
-    position: fixed;
+    position: relative;
     width: 100%;
     height: auto; 
     border-radius: 0;
     padding: 10px 0;
+    border-radius: 15px;
   }
 
   .container {

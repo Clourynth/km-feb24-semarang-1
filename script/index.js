@@ -12,10 +12,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const ctxLocation = document.getElementById('salesByLocationChart')?.getContext('2d');
     const ctxPayment = document.getElementById('salesByPaymentChart')?.getContext('2d');
 
-     // Fetch data dari file JSON
-     const fetchData = async () => {
-        const response = await fetch('data/data.json');
-        return response.json();
+    // Fungsi untuk fetch data dari file JSON
+    const fetchData = async () => {
+        try {
+            const response = await fetch('data/data.json');
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return [];
+        }
     };
 
     const data = await fetchData();
@@ -38,35 +46,41 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const enhancedData = addQuarterToData(data);
 
-    // Mengisi filter dengan opsi dari data
+    // Fungsi untuk mengisi filter dengan opsi dari data
     const populateFilters = (data) => {
         const machines = [...new Set(data.map(item => item.machine))];
         const categories = [...new Set(data.map(item => item.category))];
         const months = [...new Set(data.map(item => item.month))];
 
-        machines.forEach(machine => {
-            const option = document.createElement('option');
-            option.value = machine;
-            option.text = machine;
-            machineFilter.appendChild(option);
-        });
+        if (machineFilter) {
+            machines.forEach(machine => {
+                const option = document.createElement('option');
+                option.value = machine;
+                option.text = machine;
+                machineFilter.appendChild(option);
+            });
+        }
 
-        categories.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category;
-            option.text = category;
-            categoryFilter.appendChild(option);
-        });
+        if (categoryFilter) {
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.text = category;
+                categoryFilter.appendChild(option);
+            });
+        }
 
-        months.forEach((month) => {
-            const option = document.createElement('option');
-            option.value = month;
-            option.text = new Date(0, month - 1).toLocaleString('default', { month: 'long' });
-            monthFilter.appendChild(option);
-        });
+        if (monthFilter) {
+            months.forEach((month) => {
+                const option = document.createElement('option');
+                option.value = month;
+                option.text = new Date(0, month - 1).toLocaleString('default', { month: 'long' });
+                monthFilter.appendChild(option);
+            });
+        }
     };
+    
 
-    // Menghitung dan menampilkan total
     populateFilters(enhancedData);
 
     const calculateAndDisplayTotals = (data) => {
@@ -74,9 +88,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         const totalQuantity = data.reduce((sum, item) => sum + item.rqty, 0);
         const totalProducts = new Set(data.map(item => item.product)).size;
 
-        document.getElementById('totalSales').innerText = `$${totalSales.toFixed(2)}`;
-        document.getElementById('quantitySold').innerText = totalQuantity;
-        document.getElementById('totalProduct').innerText = totalProducts;
+        const totalSalesElement = document.getElementById('totalSales');
+        const quantitySoldElement = document.getElementById('quantitySold');
+        const totalProductElement = document.getElementById('totalProduct');
+
+        if (totalSalesElement) {
+            totalSalesElement.innerText = `$${totalSales.toFixed(2)}`;
+        }
+        if (quantitySoldElement) {
+            quantitySoldElement.innerText = totalQuantity;
+        }
+        if (totalProductElement) {
+            totalProductElement.innerText = totalProducts;
+        }
     };
 
     calculateAndDisplayTotals(enhancedData);
@@ -160,10 +184,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         }
                     },
                     y: {
-                        beginAtZero: true,
-                        // ticks: {
-                        //     callback: formatThousands // Menggunakan fungsi untuk format ribuan
-                        // }
+                        beginAtZero: true
                     }
                 }
             }
@@ -197,10 +218,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 indexAxis: horizontal ? 'y' : 'x',
                 scales: {
                     x: {
-                        beginAtZero: true,
-                        // ticks: {
-                        //     callback: formatThousands // Menggunakan fungsi untuk format ribuan
-                        // }
+                        beginAtZero: true
                     },
                     y: {
                         beginAtZero: true,
@@ -252,19 +270,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         return { labels, itemSales, totalSales };
     };
 
-    // Siapkan data untuk chart
     const salesPerMonthData = prepareChartData(enhancedData, 'month');
+    const monthLabels = salesPerMonthData.labels.map(month => new Date(0, month - 1).toLocaleString('default', { month: 'short' }));
     const salesPerQuarterData = prepareChartData(enhancedData, 'quarter');
     const salesByCategoryData = prepareChartData(enhancedData, 'category');
     const salesByLocationData = prepareChartData(enhancedData, 'location');
     const salesByPaymentData = prepareChartData(enhancedData, 'type');
 
-    // Konversi angka bulan menjadi nama bulan (Jan, Feb, dst.)
-    const monthLabels = salesPerMonthData.labels.map(month => {
-        return new Date(0, month - 1).toLocaleString('default', { month: 'short' });
-    });
-
-    // Buat chart dengan data yang sudah disiapkan
+    // Buat chart berdasarkan context yang tersedia
     const salesPerMonthChart = ctxMonth ? createLineChart(ctxMonth, monthLabels, salesPerMonthData.totalSales, salesPerMonthData.itemSales, 'Total Sales', 'Item Sales') : null;
     const salesPerQuarterChart = ctxQuarter ? createLineChart(ctxQuarter, salesPerQuarterData.labels, salesPerQuarterData.totalSales, salesPerQuarterData.itemSales, 'Total Sales', 'Item Sales') : null;
     const salesByCategoryChart = ctxCategory ? createVerticalBarChart(ctxCategory, salesByCategoryData.labels, salesByCategoryData.totalSales, salesByCategoryData.itemSales, 'Total Sales', 'Item Sales') : null;
@@ -346,20 +359,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // Event listener untuk filter
-    machineFilter.addEventListener('change', applyFilters);
-    categoryFilter.addEventListener('change', applyFilters);
-    monthFilter.addEventListener('change', applyFilters);
+    if (machineFilter) {
+        machineFilter.addEventListener('change', applyFilters);
+    }
+    if (categoryFilter) {
+        categoryFilter.addEventListener('change', applyFilters);
+    }
+    if (monthFilter) {
+        monthFilter.addEventListener('change', applyFilters);
+    }
 
     // Event listener untuk mereset filter jika nilai kosong dipilih
-    machineFilter.addEventListener('change', () => {
-        if (machineFilter.value === '') resetFilters();
-    });
+    if (machineFilter) {
+        machineFilter.addEventListener('change', () => {
+            if (machineFilter.value === '') resetFilters();
+        });
+    }
 
-    categoryFilter.addEventListener('change', () => {
-        if (categoryFilter.value === '') resetFilters();
-    });
+    if (categoryFilter) {
+        categoryFilter.addEventListener('change', () => {
+            if (categoryFilter.value === '') resetFilters();
+        });
+    }
 
-    monthFilter.addEventListener('change', () => {
-        if (monthFilter.value === '') resetFilters();
-    });
+    if (monthFilter) {
+        monthFilter.addEventListener('change', () => {
+            if (monthFilter.value === '') resetFilters();
+        });
+    }
 });
