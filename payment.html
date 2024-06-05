@@ -26,8 +26,9 @@
     />
   </head>
   <body>
+    <button id="btn-toggle"><span class="material-symbols-outlined">menu</span></button>
     <div class="container">
-      <aside>
+      <aside id="toggle-sidebar" class="toggle-sidebar">
         <div class="sidebar poppins-light">
           <a href="index.html">
             <span class="material-symbols-outlined">Home</span>
@@ -85,8 +86,10 @@
             </span>
           </p>
         </div>
-        <div class="main-chart">
-          <canvas id="payment-sales-chart" width="300" height=" 100"></canvas> 
+        <div class="main-chart"
+            style="max-width: 90%;
+                    min-width: 40%;">
+          <canvas id="payment-sales-chart" width="300" height="100"></canvas> 
         </div>
           <p style="font-size: 16px; text-align: justify">
             The highest Vending Machine sales are achieved using the cash payment method 
@@ -97,6 +100,22 @@
         </div>
       </main>
     </div>
+    <script>
+      const btnSidebar = document.getElementById("btn-toggle");
+      const sidebar = document.getElementById("toggle-sidebar");
+
+      btnSidebar.addEventListener("click", () => {
+        if (window.innerWidth <= 768) {
+          // Adjust this value based on your desired mobile breakpoint
+          sidebar.classList.toggle("active");
+          if (sidebar.classList.contains("active")) {
+            sidebar.style.display = "block";
+          } else {
+            sidebar.style.display = "none";
+          }
+        }
+      });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../script/chart.js"></script>
     <script src="../script/index.js"></script>

@@ -175,8 +175,9 @@
     />
   </head>
   <body>
+    <button id="btn-toggle"><span class="material-symbols-outlined">menu</span></button>
     <div class="container">
-      <aside>
+      <aside id="toggle-sidebar" class="toggle-sidebar">
         <div class="sidebar poppins-light">
           <a href="index.html">
             <span class="material-symbols-outlined">Home</span>
@@ -265,6 +266,7 @@
             />
         </div>
     </main>
+    </div>
     <!-- EmailJS SDK -->
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
@@ -331,6 +333,22 @@
                 });
         }
     </script>
+    <script>
+        const btnSidebar = document.getElementById("btn-toggle");
+        const sidebar = document.getElementById("toggle-sidebar");
+  
+        btnSidebar.addEventListener("click", () => {
+          if (window.innerWidth <= 768) {
+            // Adjust this value based on your desired mobile breakpoint
+            sidebar.classList.toggle("active");
+            if (sidebar.classList.contains("active")) {
+              sidebar.style.display = "block";
+            } else {
+              sidebar.style.display = "none";
+            }
+          }
+        });
+      </script>
      </body>
 </html>
 

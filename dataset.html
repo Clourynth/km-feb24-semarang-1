@@ -16,19 +16,45 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
 </head>
 <body>
-<div class="container">
-    <aside>
+    <button id="btn-toggle"><span class="material-symbols-outlined">menu</span></button>
+    <div class="container">
+      <aside id="toggle-sidebar" class="toggle-sidebar">
         <div class="sidebar poppins-light">
-            <a href="index.html"><span class="material-symbols-outlined">home</span><p>Home</p></a>
-            <a href="quarter.html"><span class="material-symbols-outlined">trending_up</span><p>Quarter</p></a>
-            <a href="month.html"><span class="material-symbols-outlined">calendar_today</span><p>Month</p></a>
-            <a href="category.html"><span class="material-symbols-outlined">stacks</span><p>Category</p></a>
-            <a href="location.html"><span class="material-symbols-outlined">location_on</span><p>Location</p></a>
-            <a href="payment.html"><span class="material-symbols-outlined">credit_card</span><p>Payment</p></a>
-            <a href="dataset.html"><span class="material-symbols-outlined">table</span><p>Dataset</p></a>
-            <a href="contactus.html"><span class="material-symbols-outlined">person</span><p>Contact Us</p></a>
-        </div>
-    </aside>
+            <a href="index.html">
+              <span class="material-symbols-outlined">Home</span>
+              <p>Home</p>
+            </a>
+            <a href="quarter.html">
+              <span class="material-symbols-outlined">trending_up</span>
+              <p>Quarter</p>
+            </a>
+            <a href="month.html">
+              <span class="material-symbols-outlined">calendar_today</span>
+              <p>Month</p>
+            </a>
+  
+            <a href="category.html">
+              <span class="material-symbols-outlined"> stacks </span>
+              <p>Category</p>
+            </a>
+            <a href="location.html">
+              <span class="material-symbols-outlined">location_on</span>
+              <p>Location</p>
+            </a>
+            <a href="payment.html">
+              <span class="material-symbols-outlined">credit_card</span>
+              <p>Payment</p>
+            </a>
+            <a href="dataset.html">
+              <span class="material-symbols-outlined">table</span>
+              <p>Dataset</p>
+            </a>
+            <a href="contactus.html">
+              <span class="material-symbols-outlined">person</span>
+              <p>Contact Us</p>
+            </a>
+          </div>
+        </aside>
     <main class="main-content">
         <header class="header"  style="font-size: 2rem; display: block; font-weight: 400"
         class="Poppins">Data Vending Machine</header>
@@ -75,6 +101,22 @@
         </section>
     </main>
 </div>
+<script>
+    const btnSidebar = document.getElementById("btn-toggle");
+    const sidebar = document.getElementById("toggle-sidebar");
+
+    btnSidebar.addEventListener("click", () => {
+      if (window.innerWidth <= 768) {
+        // Adjust this value based on your desired mobile breakpoint
+        sidebar.classList.toggle("active");
+        if (sidebar.classList.contains("active")) {
+          sidebar.style.display = "block";
+        } else {
+          sidebar.style.display = "none";
+        }
+      }
+    });
+  </script>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- DataTables JS -->
