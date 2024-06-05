@@ -179,36 +179,36 @@
     <div class="container">
       <aside id="toggle-sidebar" class="toggle-sidebar">
         <div class="sidebar poppins-light">
-          <a href="index.html">
+          <a href="index.html" class="menu-item">
             <span class="material-symbols-outlined">Home</span>
             <p>Home</p>
           </a>
-          <a href="quarter.html">
+          <a href="quarter.html" class="menu-item">
             <span class="material-symbols-outlined">trending_up</span>
             <p>Quarter</p>
           </a>
-          <a href="month.html">
+          <a href="month.html" class="menu-item">
             <span class="material-symbols-outlined">calendar_today</span>
             <p>Month</p>
           </a>
 
-          <a href="category.html">
+          <a href="category.html" class="menu-item">
             <span class="material-symbols-outlined"> stacks </span>
             <p>Category</p>
           </a>
-          <a href="location.html">
+          <a href="location.html" class="menu-item">
             <span class="material-symbols-outlined">location_on</span>
             <p>Location</p>
           </a>
-          <a href="payment.html">
+          <a href="payment.html" class="menu-item">
             <span class="material-symbols-outlined">credit_card</span>
             <p>Payment</p>
           </a>
-          <a href="dataset.html">
+          <a href="dataset.html" class="menu-item">
             <span class="material-symbols-outlined">table</span>
             <p>Dataset</p>
           </a>
-          <a href="contactus.html">
+          <a href="contactus.html" class="">
             <span class="material-symbols-outlined">person</span>
             <p>Contact Us</p>
           </a>
@@ -267,88 +267,109 @@
         </div>
     </main>
     </div>
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script>
-        // Initialize EmailJS with your User ID
-        emailjs.init("DssR9a1x2APk50nvi");
-    
-        function validateEmail(emailAddress) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(emailAddress);
+   <!-- EmailJS SDK -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+    // Initialize EmailJS with your User ID
+    emailjs.init("DssR9a1x2APk50nvi");
+
+    function validateEmail(emailAddress) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(emailAddress);
+    }
+
+    function sendMessage() {
+        var fullName = document.querySelector('.whats-your-full').value;
+        var emailAddress = document.querySelector('.youexamplecom').value;
+        var message = document.querySelector('.frame-textarea').value;
+
+        var nameError = document.querySelector('.name-error');
+        var emailError = document.querySelector('.email-error');
+        var messageError = document.querySelector('.message-error');
+
+        let isValid = true;
+
+        if (!fullName) {
+            nameError.style.display = 'block';
+            isValid = false;
+        } else {
+            nameError.style.display = 'none';
         }
-    
-        function sendMessage() {
-            var fullName = document.querySelector('.whats-your-full').value;
-            var emailAddress = document.querySelector('.youexamplecom').value;
-            var message = document.querySelector('.frame-textarea').value;
-    
-            var nameError = document.querySelector('.name-error');
-            var emailError = document.querySelector('.email-error');
-            var messageError = document.querySelector('.message-error');
-    
-            let isValid = true;
-    
-            if (!fullName) {
-                nameError.style.display = 'block';
-                isValid = false;
-            } else {
-                nameError.style.display = 'none';
-            }
-    
-            if (!emailAddress || !validateEmail(emailAddress)) {
-                emailError.style.display = 'block';
-                emailError.innerText = 'Please enter a valid email address.';
-                isValid = false;
-            } else {
-                emailError.style.display = 'none';
-            }
-    
-            if (!message) {
-                messageError.style.display = 'block';
-                isValid = false;
-            } else {
-                messageError.style.display = 'none';
-            }
-    
-            if (!isValid) {
-                return;
-            }
-    
-            // Prepare the template parameters
-            var templateParams = {
-                fullName: fullName,
-                emailAddress: emailAddress,
-                message: message
-            };
-    
-            // Send email using EmailJS
-            emailjs.send('service_s9fucgv', 'template_2cqvrjd', templateParams)
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    alert('Your message has been successfully sent! Our team will respond to it promptly!');
-                }, function(error) {
-                    console.log('FAILED...', error);
-                    alert('Failed to send email. Please check console for error details.');
-                });
+
+        if (!emailAddress || !validateEmail(emailAddress)) {
+            emailError.style.display = 'block';
+            emailError.innerText = 'Please enter a valid email address.';
+            isValid = false;
+        } else {
+            emailError.style.display = 'none';
         }
-    </script>
-    <script>
-        const btnSidebar = document.getElementById("btn-toggle");
-        const sidebar = document.getElementById("toggle-sidebar");
-  
-        btnSidebar.addEventListener("click", () => {
-          if (window.innerWidth <= 768) {
-            // Adjust this value based on your desired mobile breakpoint
-            sidebar.classList.toggle("active");
-            if (sidebar.classList.contains("active")) {
+
+        if (!message) {
+            messageError.style.display = 'block';
+            isValid = false;
+        } else {
+            messageError.style.display = 'none';
+        }
+
+        if (!isValid) {
+            return;
+        }
+
+        // Prepare the template parameters
+        var templateParams = {
+            from_name: fullName,
+            email_id: emailAddress, // This is crucial for the sender email
+            message: message
+        };
+
+        // Send email using EmailJS
+        emailjs.send('service_s9fucgv', 'template_2cqvrjd', templateParams)
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                alert('Your message has been successfully sent! Our team will respond to it promptly!');
+            }, function(error) {
+                console.log('FAILED...', error);
+                alert('Failed to send email. Please check console for error details.');
+            });
+    }
+</script>
+<script>
+  const btnSidebar = document.getElementById("btn-toggle");
+  const sidebar = document.getElementById("toggle-sidebar");
+
+  // Fungsi untuk menutup sidebar
+  function closeSidebar() {
+      sidebar.classList.remove("active");
+      sidebar.style.display = "none";
+  }
+
+  btnSidebar.addEventListener("click", () => {
+      if (window.innerWidth <= 768) { // Adjust this value based on your desired mobile breakpoint
+          sidebar.classList.toggle("active");
+          if (sidebar.classList.contains("active")) {
               sidebar.style.display = "block";
-            } else {
+          } else {
               sidebar.style.display = "none";
-            }
           }
-        });
-      </script>
+      }
+  });
+
+  // Tambahkan event listener untuk menutup sidebar saat item menu diklik
+  const menuItems = document.querySelectorAll("#toggle-sidebar .menu-item");
+  menuItems.forEach(item => {
+      item.addEventListener("click", () => {
+          closeSidebar();
+      });
+  });
+
+  // Menambahkan event listener pada window resize untuk memastikan sidebar tertutup saat ukuran layar berubah
+  window.addEventListener("resize", () => {
+      if (window.innerWidth > 768 && sidebar.classList.contains("active")) {
+          closeSidebar();
+      }
+  });
+</script>
+
      </body>
 </html>
 
