@@ -1,4 +1,4 @@
-name: Automatic sync fork
+name: Automatic sync fork (Disabled)
 
 on:
   workflow_dispatch:
