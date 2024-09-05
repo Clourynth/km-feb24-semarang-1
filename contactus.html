@@ -144,7 +144,7 @@
       }
     </style>
     <title>Contact Us</title>
-    <link rel="stylesheet" href="../style/style.css" />
+    <link rel="stylesheet" href="../style/styles.css" />
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -334,40 +334,26 @@
     }
 </script>
 <script>
-  const btnSidebar = document.getElementById("btn-toggle");
-  const sidebar = document.getElementById("toggle-sidebar");
-
-  // Fungsi untuk menutup sidebar
-  function closeSidebar() {
-      sidebar.classList.remove("active");
-      sidebar.style.display = "none";
-  }
-
-  btnSidebar.addEventListener("click", () => {
-      if (window.innerWidth <= 768) { // Adjust this value based on your desired mobile breakpoint
-          sidebar.classList.toggle("active");
-          if (sidebar.classList.contains("active")) {
-              sidebar.style.display = "block";
-          } else {
+    document.addEventListener("DOMContentLoaded", () => {
+        const btnSidebar = document.getElementById("btn-toggle");
+        const sidebar = document.getElementById("toggle-sidebar");
+        if (window.innerWidth <= 768) {
+              sidebar.classList.remove("active");
               sidebar.style.display = "none";
-          }
-      }
-  });
-
-  // Tambahkan event listener untuk menutup sidebar saat item menu diklik
-  const menuItems = document.querySelectorAll("#toggle-sidebar .menu-item");
-  menuItems.forEach(item => {
-      item.addEventListener("click", () => {
-          closeSidebar();
-      });
-  });
-
-  // Menambahkan event listener pada window resize untuk memastikan sidebar tertutup saat ukuran layar berubah
-  window.addEventListener("resize", () => {
-      if (window.innerWidth > 768 && sidebar.classList.contains("active")) {
-          closeSidebar();
-      }
-  });
+            }  
+    })
+        const btnSidebar = document.getElementById("btn-toggle");
+        const sidebar = document.getElementById("toggle-sidebar");
+        btnSidebar.addEventListener("click", () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle("active");
+                if (sidebar.classList.contains("active")) {
+                    sidebar.style.display = "block";
+                } else {
+                    sidebar.style.display = "none";
+                }
+            }
+        });
 </script>
 
      </body>

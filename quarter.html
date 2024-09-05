@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sales per Quarter</title>
-    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/styles.css" />
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -66,54 +66,59 @@
         </div>
       </aside>
       <!-- main section -->
-      <main
-        style="
+      <main style="
           flex-grow: 1;
           display: flex;
           flex-direction: column;
           justify-content: center;
-          padding: 1.7rem;
-        "
-      >
-        <p style="font-size: 1.5rem">
-          Sales per
-          <span
-            style="font-size: 2.5rem; display: block; font-weight: 400"
-            class="poppins-medium"
-          >
-            Quarter
-          </span>
-        </p>
-        <div class="main-chart">
-          <canvas id="quarter-sales-chart" width="800" height=" 300"></canvas> 
-        </div>
+          padding: 1.7rem;">
 
-        <p style="font-size: 16px; text-align: justify">
-          The highest Vending Machine sales were in the third quarter, with a total sales of $5,846.5. 
-          Sales increased from the second quarter to the third quarter by $463.25. 
-          However, there was a decline in sales in the fourth quarter, 
-          and sales in the fourth quarter were lower than those in the third quarter.
-        </p>
+        <div class="text-sect">
+          <p style="font-size: 1.5rem">
+            Sales per
+            <span
+              style="font-size: 2.5rem; display: block; font-weight: 400"
+              class="poppins-medium">Quarter
+            </span>
+          </p>
+        </div>
+        <div class="main-chart"
+            style="max-width: 90%;
+                    min-width: 40%;">
+          <canvas id="quarter-sales-chart" width="900" height=" 300"></canvas> 
+        </div>
+          <p style="font-size: 16px; text-align: justify">
+            The highest Vending Machine sales are achieved using the cash payment method 
+            with total sales amounting to $1,137.75, followed by credit card payments totaling $695.30. 
+            To increase sales with the credit method, the company can collaborate and create promotions 
+            specifically for credit card payments.
+          </p>
       </main>
     </div>
     <script>
-      const btnSidebar = document.getElementById("btn-toggle");
-      const sidebar = document.getElementById("toggle-sidebar");
-
-      btnSidebar.addEventListener("click", () => {
-        if (window.innerWidth <= 768) {
-          // Adjust this value based on your desired mobile breakpoint
-          sidebar.classList.toggle("active");
-          if (sidebar.classList.contains("active")) {
-            sidebar.style.display = "block";
-          } else {
-            sidebar.style.display = "none";
-          }
-        }
-      });
+      document.addEventListener("DOMContentLoaded", () => {
+          const btnSidebar = document.getElementById("btn-toggle");
+          const sidebar = document.getElementById("toggle-sidebar");
+          if (window.innerWidth <= 768) {
+                sidebar.classList.remove("active");
+                sidebar.style.display = "none";
+              }  
+      })
+          const btnSidebar = document.getElementById("btn-toggle");
+          const sidebar = document.getElementById("toggle-sidebar");
+          btnSidebar.addEventListener("click", () => {
+              if (window.innerWidth <= 768) {
+                  sidebar.classList.toggle("active");
+                  if (sidebar.classList.contains("active")) {
+                      sidebar.style.display = "block";
+                  } else {
+                      sidebar.style.display = "none";
+                  }
+              }
+          });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../script/chart.js"></script>
-    <script src="../script/index.js"></script>
+    <script src="../script/app.js"></script>
+    <script src="../script/main.js"></script>
   </body>
 </html>

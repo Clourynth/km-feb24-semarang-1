@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dataset</title>
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/styles.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <!-- Fonts -->
@@ -100,27 +100,33 @@
             </div>
         </section>
     </main>
-</div>
-<script>
-    const btnSidebar = document.getElementById("btn-toggle");
-    const sidebar = document.getElementById("toggle-sidebar");
-
-    btnSidebar.addEventListener("click", () => {
-      if (window.innerWidth <= 768) {
-        // Adjust this value based on your desired mobile breakpoint
-        sidebar.classList.toggle("active");
-        if (sidebar.classList.contains("active")) {
-          sidebar.style.display = "block";
-        } else {
-          sidebar.style.display = "none";
-        }
-      }
-    });
-  </script>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-<script src="../script/script.js"></script>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+          const btnSidebar = document.getElementById("btn-toggle");
+          const sidebar = document.getElementById("toggle-sidebar");
+          if (window.innerWidth <= 768) {
+                sidebar.classList.remove("active");
+                sidebar.style.display = "none";
+              }  
+      })
+          const btnSidebar = document.getElementById("btn-toggle");
+          const sidebar = document.getElementById("toggle-sidebar");
+          btnSidebar.addEventListener("click", () => {
+              if (window.innerWidth <= 768) {
+                  sidebar.classList.toggle("active");
+                  if (sidebar.classList.contains("active")) {
+                      sidebar.style.display = "block";
+                  } else {
+                      sidebar.style.display = "none";
+                  }
+              }
+          });
+    </script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="../script/scripts.js"></script>
 </body>
 </html>

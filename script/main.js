@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
     };
-    
 
     populateFilters(enhancedData);
 
@@ -277,7 +276,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const salesByLocationData = prepareChartData(enhancedData, 'location');
     const salesByPaymentData = prepareChartData(enhancedData, 'type');
 
-    // Buat chart berdasarkan context yang tersedia
     const salesPerMonthChart = ctxMonth ? createLineChart(ctxMonth, monthLabels, salesPerMonthData.totalSales, salesPerMonthData.itemSales, 'Total Sales', 'Item Sales') : null;
     const salesPerQuarterChart = ctxQuarter ? createLineChart(ctxQuarter, salesPerQuarterData.labels, salesPerQuarterData.totalSales, salesPerQuarterData.itemSales, 'Total Sales', 'Item Sales') : null;
     const salesByCategoryChart = ctxCategory ? createVerticalBarChart(ctxCategory, salesByCategoryData.labels, salesByCategoryData.totalSales, salesByCategoryData.itemSales, 'Total Sales', 'Item Sales') : null;
@@ -316,6 +314,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             salesPerMonthChart.data.labels = monthLabels;
             salesPerMonthChart.data.datasets[0].data = salesPerMonthData.totalSales;
             salesPerMonthChart.data.datasets[1].data = salesPerMonthData.itemSales;
+
+            // Tambahkan titik jika filter bulan dipilih
+            salesPerMonthChart.data.datasets.forEach(dataset => {
+                dataset.pointRadius = month ? 3 : 0;
+            });
+
             salesPerMonthChart.update();
         }
 
@@ -323,6 +327,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             salesPerQuarterChart.data.labels = salesPerQuarterData.labels;
             salesPerQuarterChart.data.datasets[0].data = salesPerQuarterData.totalSales;
             salesPerQuarterChart.data.datasets[1].data = salesPerQuarterData.itemSales;
+
+            // Tambahkan titik jika filter bulan dipilih
+            salesPerQuarterChart.data.datasets.forEach(dataset => {
+                dataset.pointRadius = month ? 3 : 0;
+            });
+
             salesPerQuarterChart.update();
         }
 
@@ -341,10 +351,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (salesByPaymentChart) {
-            salesByPaymentChart.data.labels = salesByPaymentData.labels.map((label, index) => {
-                return salesByPaymentData.percentages && salesByPaymentData.percentages[index] !== undefined ? 
-                `${label} (${salesByPaymentData.percentages[index]}%)` : label;
-            });
+            const total = salesByPaymentData.totalSales.reduce((sum, value) => sum + value, 0);
+            const percentages = salesByPaymentData.totalSales.map(value => ((value / total) * 100).toFixed(2));
+            salesByPaymentChart.data.labels = salesByPaymentData.labels.map((label, index) => `${label} (${percentages[index]}%)`);
             salesByPaymentChart.data.datasets[0].data = salesByPaymentData.totalSales;
             salesByPaymentChart.update();
         }

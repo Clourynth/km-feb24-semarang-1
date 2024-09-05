@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sales by Payment</title>
-    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/styles.css" />
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -66,23 +66,19 @@
         </div>
       </aside>
       <!-- main section -->
-      <main
-        style="
+      <main style="
           flex-grow: 1;
           display: flex;
           flex-direction: column;
           justify-content: center;
-          padding: 1.7rem;
-        "
-      >
+          padding: 1.7rem;">
+
         <div class="text-sect">
           <p style="font-size: 1.5rem">
             Sales by Type of
             <span
               style="font-size: 2.5rem; display: block; font-weight: 400"
-              class="poppins-medium"
-            >
-              Payment
+              class="poppins-medium">Payment
             </span>
           </p>
         </div>
@@ -97,27 +93,32 @@
             To increase sales with the credit method, the company can collaborate and create promotions 
             specifically for credit card payments.
           </p>
-        </div>
       </main>
     </div>
     <script>
-      const btnSidebar = document.getElementById("btn-toggle");
-      const sidebar = document.getElementById("toggle-sidebar");
-
-      btnSidebar.addEventListener("click", () => {
-        if (window.innerWidth <= 768) {
-          // Adjust this value based on your desired mobile breakpoint
-          sidebar.classList.toggle("active");
-          if (sidebar.classList.contains("active")) {
-            sidebar.style.display = "block";
-          } else {
-            sidebar.style.display = "none";
-          }
-        }
-      });
+      document.addEventListener("DOMContentLoaded", () => {
+          const btnSidebar = document.getElementById("btn-toggle");
+          const sidebar = document.getElementById("toggle-sidebar");
+          if (window.innerWidth <= 768) {
+                sidebar.classList.remove("active");
+                sidebar.style.display = "none";
+              }  
+      })
+          const btnSidebar = document.getElementById("btn-toggle");
+          const sidebar = document.getElementById("toggle-sidebar");
+          btnSidebar.addEventListener("click", () => {
+              if (window.innerWidth <= 768) {
+                  sidebar.classList.toggle("active");
+                  if (sidebar.classList.contains("active")) {
+                      sidebar.style.display = "block";
+                  } else {
+                      sidebar.style.display = "none";
+                  }
+              }
+          });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../script/chart.js"></script>
-    <script src="../script/index.js"></script>
+    <script src="../script/app.js"></script>
+    <script src="../script/main.js"></script>
   </body>
 </html>
